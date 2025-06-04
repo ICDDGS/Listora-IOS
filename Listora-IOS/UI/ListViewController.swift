@@ -21,45 +21,20 @@ class ListViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
 
-        // Registrar celda personalizada
         let nib = UINib(nibName: "TableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "TableViewCell")
 
-        fetchShoppingLists()
+        loadLists()
     }
 
-    // MARK: - Core Data
+    // MARK: - Cargar desde el DataManager
 
-    func fetchShoppingLists() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        let request: NSFetchRequest<ShoppingListEntity> = ShoppingListEntity.fetchRequest()
-
-        do {
-            shoppingLists = try context.fetch(request)
-            tableView.reloadData()
-        } catch {
-            print("Error al cargar listas: \(error)")
-        }
+    func loadLists() {
+        shoppingLists = ShoppingListDataManager.shared.fetchLists()
+        tableView.reloadData()
     }
 
-    func saveShoppingList(name: String, budget: Double, date: Date) {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
-        let newList = ShoppingListEntity(context: context)
-        newList.name = name
-        newList.budget = budget
-        newList.date = date
-
-        do {
-            try context.save()
-            print("Lista guardada")
-            fetchShoppingLists()
-        } catch {
-            print("Error al guardar: \(error)")
-        }
-    }
-
-    // MARK: - Crear lista
+    // MARK: - Agregar lista
 
     @IBAction func addListAction(_ sender: Any) {
         let alert = UIAlertController(title: "Nueva Lista", message: nil, preferredStyle: .alert)
@@ -105,13 +80,70 @@ class ListViewController: UIViewController {
                 return
             }
 
-            self.saveShoppingList(name: name, budget: budget, date: datePicker.date)
+            ShoppingListDataManager.shared.createList(name: name, budget: budget, dete: datePicker.date)
+            self.loadLists()
         }
 
         alert.addAction(addAction)
         alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
         present(alert, animated: true)
     }
+    
+    func showEditAlert(for list: ShoppingListEntity) {
+        let alert = UIAlertController(title: "Editar Lista", message: nil, preferredStyle: .alert)
+
+        alert.addTextField { textField in
+            textField.placeholder = "Nombre de la lista"
+            textField.text = list.name
+        }
+
+        alert.addTextField { textField in
+            textField.placeholder = "Presupuesto"
+            textField.keyboardType = .decimalPad
+            textField.text = String(format: "%.2f", list.budget)
+        }
+
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.date = list.date ?? Date()
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+
+        alert.view.addSubview(datePicker)
+
+        NSLayoutConstraint.activate([
+            datePicker.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 120),
+            datePicker.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
+            datePicker.widthAnchor.constraint(equalToConstant: 250),
+            datePicker.heightAnchor.constraint(equalToConstant: 120)
+        ])
+
+        let height = NSLayoutConstraint(
+            item: alert.view!,
+            attribute: .height,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .notAnAttribute,
+            multiplier: 1,
+            constant: 350)
+        alert.view.addConstraint(height)
+
+        let saveAction = UIAlertAction(title: "Guardar", style: .default) { _ in
+            guard
+                let name = alert.textFields?[0].text, !name.isEmpty,
+                let budgetText = alert.textFields?[1].text,
+                let budget = Double(budgetText)
+            else { return }
+
+            ShoppingListDataManager.shared.updateList(list, name: name, budget: budget, date: datePicker.date)
+            self.loadLists()
+        }
+
+        alert.addAction(saveAction)
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+        present(alert, animated: true)
+    }
+
 }
 
 // MARK: - TableView Delegates
@@ -128,6 +160,26 @@ extension ListViewController: UITableViewDelegate {
 
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let list = shoppingLists[indexPath.row]
+
+        let deleteAction = UIContextualAction(style: .destructive, title: "Eliminar") { _, _, completionHandler in
+            ShoppingListDataManager.shared.deleteList(list)
+            self.loadLists()
+            completionHandler(true)
+        }
+
+        let editAction = UIContextualAction(style: .normal, title: "Editar") { _, _, completionHandler in
+            self.showEditAlert(for: list)
+            completionHandler(true)
+        }
+
+        editAction.backgroundColor = .systemOrange
+
+        return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
+    }
+
 }
 
 extension ListViewController: UITableViewDataSource {
