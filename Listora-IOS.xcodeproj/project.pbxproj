@@ -6,8 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A9CDE7402DF04F63006A26FE /* ShoppingListEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CDE73F2DF04F62006A26FE /* ShoppingListEntity+CoreDataProperties.swift */; };
+		A9CDE7412DF04F63006A26FE /* ShoppingListEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CDE73E2DF04F62006A26FE /* ShoppingListEntity+CoreDataClass.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		A99B91CD2DE933B20076D4EA /* Listora-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Listora-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9CDE73E2DF04F62006A26FE /* ShoppingListEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShoppingListEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		A9CDE73F2DF04F62006A26FE /* ShoppingListEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShoppingListEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -45,6 +52,8 @@
 		A99B91C42DE933B20076D4EA = {
 			isa = PBXGroup;
 			children = (
+				A9CDE73E2DF04F62006A26FE /* ShoppingListEntity+CoreDataClass.swift */,
+				A9CDE73F2DF04F62006A26FE /* ShoppingListEntity+CoreDataProperties.swift */,
 				A99B91CF2DE933B20076D4EA /* Listora-IOS */,
 				A99B91CE2DE933B20076D4EA /* Products */,
 			);
@@ -132,6 +141,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9CDE7402DF04F63006A26FE /* ShoppingListEntity+CoreDataProperties.swift in Sources */,
+				A9CDE7412DF04F63006A26FE /* ShoppingListEntity+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

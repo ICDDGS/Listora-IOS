@@ -1,24 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7l4-65-1lC">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--RecipesViewController-->
+        <scene sceneID="2ZJ-lw-wZs">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <viewController storyboardIdentifier="RecipesViewController" title="RecipesViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="XqO-zs-30f" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dJ8-1w-Bd4">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <viewLayoutGuide key="safeArea" id="DOK-1b-hbe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Recetas" image="fork.knife" catalog="system" id="QjT-fm-xzn"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Qe-yJ-BCQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1893" y="317"/>
+        </scene>
+        <!--HistoryViewController-->
+        <scene sceneID="k0t-kh-0Rh">
+            <objects>
+                <viewController title="HistoryViewController" id="kCg-jl-A0G" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4dD-Im-I7C">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="3lq-Ds-3nI"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Historial" image="list.bullet.clipboard.fill" catalog="system" id="SFR-Ye-46Q"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y9u-JG-Fes" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="497" y="901"/>
+        </scene>
+        <!--ListViewController-->
+        <scene sceneID="BZ9-gX-KwA">
+            <objects>
+                <viewController storyboardIdentifier="ListViewController" title="ListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="H6R-Pj-6XE" customClass="ListViewController" customModule="Listora_IOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qLw-g5-L8V">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sg3-Oq-OjB">
+                                <rect key="frame" x="20" y="158" width="353" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Agregar Lista"/>
+                                <connections>
+                                    <action selector="addListAction:" destination="H6R-Pj-6XE" eventType="touchUpInside" id="Rnh-Aj-4PH"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0fQ-1p-EzI">
+                                <rect key="frame" x="20" y="220" width="353" height="505"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListCell" id="KSt-Vi-jpf">
+                                        <rect key="frame" x="0.0" y="50" width="353" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KSt-Vi-jpf" id="xzx-2r-7aq">
+                                            <rect key="frame" x="0.0" y="0.0" width="353" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="gBI-ev-wsU"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="gBI-ev-wsU" firstAttribute="trailing" secondItem="0fQ-1p-EzI" secondAttribute="trailing" constant="20" id="669-Ib-YAM"/>
+                            <constraint firstItem="0fQ-1p-EzI" firstAttribute="leading" secondItem="gBI-ev-wsU" secondAttribute="leading" constant="20" id="Q9p-GO-QYH"/>
+                            <constraint firstItem="0fQ-1p-EzI" firstAttribute="top" secondItem="Sg3-Oq-OjB" secondAttribute="bottom" constant="27" id="SIA-aG-re0"/>
+                            <constraint firstItem="gBI-ev-wsU" firstAttribute="trailing" secondItem="Sg3-Oq-OjB" secondAttribute="trailing" constant="20" id="Xlc-yg-sdV"/>
+                            <constraint firstItem="Sg3-Oq-OjB" firstAttribute="top" secondItem="gBI-ev-wsU" secondAttribute="top" constant="40" id="bg7-Hl-580"/>
+                            <constraint firstItem="Sg3-Oq-OjB" firstAttribute="leading" secondItem="gBI-ev-wsU" secondAttribute="leading" constant="20" id="fzI-79-kSz"/>
+                            <constraint firstItem="gBI-ev-wsU" firstAttribute="bottom" secondItem="0fQ-1p-EzI" secondAttribute="bottom" constant="10" id="vn0-jL-vzC"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Listas" image="cart" catalog="system" id="Kyz-Dg-y5T"/>
+                    <connections>
+                        <outlet property="tableView" destination="0fQ-1p-EzI" id="xEI-ew-GMa"/>
+                        <segue destination="Uya-N7-tu5" kind="show" id="2Eb-Jk-5tD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oip-2b-yRB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1892" y="-313"/>
+        </scene>
+        <!--IngredientsViewController-->
+        <scene sceneID="eUB-Lw-uOR">
+            <objects>
+                <viewController storyboardIdentifier="IngredientsViewController" title="IngredientsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Uya-N7-tu5" customClass="IngredientsViewController" customModule="Listora_IOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5Pr-Av-2I1">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="bTX-Qd-CPc"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Oaa-RG-dJo"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qWc-qU-zeI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2833" y="-313"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="U52-P4-f7k">
+            <objects>
+                <tabBarController id="7l4-65-1lC" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fK2-ba-suD">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="H6R-Pj-6XE" kind="relationship" relationship="viewControllers" id="iPY-rH-PTU"/>
+                        <segue destination="XqO-zs-30f" kind="relationship" relationship="viewControllers" id="N2T-b2-FK2"/>
+                        <segue destination="kCg-jl-A0G" kind="relationship" relationship="viewControllers" id="T9X-ee-ehf"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bdm-aZ-WP2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="497" y="70"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="cart" catalog="system" width="128" height="102"/>
+        <image name="fork.knife" catalog="system" width="94" height="128"/>
+        <image name="list.bullet.clipboard.fill" catalog="system" width="98" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
