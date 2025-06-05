@@ -41,12 +41,58 @@ class ResumenViewController: UIViewController, UITableViewDataSource {
     }
 
     @IBAction func exportarExcel(_ sender: UIButton) {
-        // Aquí implementarás exportación más adelante
-        print("Exportar a Excel (pendiente)")
+        exportarAExcel()
     }
 
     @IBAction func volverAListas(_ sender: UIButton) {
+        guardarEnHistorial()
         navigationController?.popToRootViewController(animated: true)
     }
+
+    
+    func exportarAExcel() {
+        let fileName = "ResumenCompras.csv"
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let path = documentsURL.appendingPathComponent(fileName)
+
+
+        var csvText = "Ingrediente,Cantidad,Unidad,Precio\n"
+
+        for compra in compras {
+            let linea = "\(compra.name ?? ""),\(compra.quantity),\(compra.unit ?? ""),\(compra.price)\n"
+            csvText.append(contentsOf: linea)
+        }
+
+        do {
+            try csvText.write(to: path, atomically: true, encoding: .utf8)
+
+            let activityVC = UIActivityViewController(activityItems: [path], applicationActivities: nil)
+            activityVC.popoverPresentationController?.sourceView = self.view
+            self.present(activityVC, animated: true)
+        } catch {
+            print("Error al exportar archivo CSV: \(error)")
+        }
+    }
+    func guardarEnHistorial() {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
+        for compra in compras {
+            let historial = HistorialEntity(context: context)
+            historial.name = compra.name
+            historial.quantity = compra.quantity
+            historial.unit = compra.unit
+            historial.price = compra.price
+            historial.date = compra.purchasedDate ?? Date()
+        }
+
+        do {
+            try context.save()
+            print("Historial guardado correctamente.")
+        } catch {
+            print("Error al guardar en historial: \(error)")
+        }
+    }
+
+
 }
 

@@ -21,6 +21,7 @@ extension IngredientEntity {
     @NSManaged public var unit: String?
     @NSManaged public var price: Double
     @NSManaged public var isPurchased: Bool
+    @NSManaged public var purchasedDate: Date?
     @NSManaged public var list: ShoppingListEntity?
 
 }

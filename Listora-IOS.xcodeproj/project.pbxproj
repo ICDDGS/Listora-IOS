@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A98BB0AA2DF12F9900CFADBE /* HistorialEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98BB0A82DF12F9900CFADBE /* HistorialEntity+CoreDataClass.swift */; };
+		A98BB0AB2DF12F9900CFADBE /* HistorialEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98BB0A92DF12F9900CFADBE /* HistorialEntity+CoreDataProperties.swift */; };
 		A9AEE4B32DF0AE8F00268645 /* IngredientEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AEE4B12DF0AE8F00268645 /* IngredientEntity+CoreDataClass.swift */; };
 		A9AEE4B42DF0AE8F00268645 /* IngredientEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AEE4B22DF0AE8F00268645 /* IngredientEntity+CoreDataProperties.swift */; };
 		A9AEE4B72DF1112100268645 /* ShoppingListEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AEE4B52DF1112100268645 /* ShoppingListEntity+CoreDataClass.swift */; };
@@ -14,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A98BB0A82DF12F9900CFADBE /* HistorialEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistorialEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		A98BB0A92DF12F9900CFADBE /* HistorialEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistorialEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A99B91CD2DE933B20076D4EA /* Listora-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Listora-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9AEE4B12DF0AE8F00268645 /* IngredientEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IngredientEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A9AEE4B22DF0AE8F00268645 /* IngredientEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IngredientEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -56,6 +60,8 @@
 		A99B91C42DE933B20076D4EA = {
 			isa = PBXGroup;
 			children = (
+				A98BB0A82DF12F9900CFADBE /* HistorialEntity+CoreDataClass.swift */,
+				A98BB0A92DF12F9900CFADBE /* HistorialEntity+CoreDataProperties.swift */,
 				A9AEE4B52DF1112100268645 /* ShoppingListEntity+CoreDataClass.swift */,
 				A9AEE4B62DF1112100268645 /* ShoppingListEntity+CoreDataProperties.swift */,
 				A9AEE4B12DF0AE8F00268645 /* IngredientEntity+CoreDataClass.swift */,
@@ -150,6 +156,8 @@
 				A9AEE4B72DF1112100268645 /* ShoppingListEntity+CoreDataClass.swift in Sources */,
 				A9AEE4B82DF1112100268645 /* ShoppingListEntity+CoreDataProperties.swift in Sources */,
 				A9AEE4B32DF0AE8F00268645 /* IngredientEntity+CoreDataClass.swift in Sources */,
+				A98BB0AA2DF12F9900CFADBE /* HistorialEntity+CoreDataClass.swift in Sources */,
+				A98BB0AB2DF12F9900CFADBE /* HistorialEntity+CoreDataProperties.swift in Sources */,
 				A9AEE4B42DF0AE8F00268645 /* IngredientEntity+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

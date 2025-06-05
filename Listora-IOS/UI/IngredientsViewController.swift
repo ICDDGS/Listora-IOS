@@ -286,16 +286,23 @@ extension IngredientsViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let ingredient = ingredients[indexPath.row]
         ingredient.isPurchased.toggle()
+        
+        if ingredient.isPurchased {
+            ingredient.purchasedDate = Date()
+        } else {
+            ingredient.purchasedDate = nil
+        }
 
         do {
             try (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext.save()
             fetchIngredients()
         } catch {
-            print("Error al actualizar estado de compra")
+            print("Error al actualizar estado de compra: \(error)")
         }
 
         tableView.deselectRow(at: indexPath, animated: true)
     }
+
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let ingredient = ingredients[indexPath.row]
