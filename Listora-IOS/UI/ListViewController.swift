@@ -153,13 +153,14 @@ extension ListViewController: UITableViewDelegate {
         let selectedList = shoppingLists[indexPath.row]
 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
-            detailVC.shoppingList = selectedList
-            navigationController?.pushViewController(detailVC, animated: true)
+        if let ingredientsVC = storyboard.instantiateViewController(withIdentifier: "IngredientsViewController") as? IngredientsViewController {
+            ingredientsVC.shoppingList = selectedList
+            navigationController?.pushViewController(ingredientsVC, animated: true)
         }
 
         tableView.deselectRow(at: indexPath, animated: true)
     }
+
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
         let list = shoppingLists[indexPath.row]

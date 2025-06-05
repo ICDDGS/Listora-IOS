@@ -6,66 +6,135 @@
 //
 
 import UIKit
+import CoreData
 
 class IngredientsViewController: UIViewController {
 
-    var listName: String?
-    var ingredients: [String] = []
+    var shoppingList: ShoppingListEntity?
+    var ingredients: [IngredientEntity] = []
+    let unidades = ["kg", "g", "L", "ml", "pza", "taza"]
+    var selectedUnidad = "kg"
+    var unidadField: UITextField?
 
-    private let tableView = UITableView()
+    @IBOutlet weak var labelBudget: UILabel!
+    @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        title = shoppingList?.name ?? "Ingredientes"
         view.backgroundColor = .systemBackground
-        title = listName ?? "Ingredientes"
 
-        setupTableView()
-        setupAddButton()
-    }
-
-    private func setupTableView() {
-        view.addSubview(tableView)
-
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-        ])
-
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "IngredientCell")
-        tableView.dataSource = self
         tableView.delegate = self
-    }
+        tableView.dataSource = self
 
-    private func setupAddButton() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
-            action: #selector(addIngredient)
+            action: #selector(addIngredientTapped)
         )
+
+        fetchIngredients()
     }
 
-    @objc private func addIngredient() {
-        let alert = UIAlertController(title: "Nuevo Ingrediente", message: "Ingresa el nombre del ingrediente", preferredStyle: .alert)
-        alert.addTextField { textField in
-            textField.placeholder = "Ej: Leche"
+    func fetchIngredients() {
+        guard let list = shoppingList,
+              let set = list.ingredients as? Set<IngredientEntity> else {
+            return
+        }
+        ingredients = Array(set).sorted { $0.name ?? "" < $1.name ?? "" }
+        tableView.reloadData()
+        updateBudgetLabel()
+    }
+
+    func createIngredient(name: String, quantity: Double, unit: String, price: Double, isPurchased: Bool = false) {
+        guard let list = shoppingList else { return }
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
+        let ingredient = IngredientEntity(context: context)
+        ingredient.name = name
+        ingredient.quantity = quantity
+        ingredient.unit = unit
+        ingredient.price = price
+        ingredient.isPurchased = isPurchased
+        ingredient.list = list
+
+        do {
+            try context.save()
+            print("Ingrediente guardado")
+            fetchIngredients()
+        } catch {
+            print("Error al guardar ingrediente: \(error)")
+        }
+    }
+
+    @objc func addIngredientTapped() {
+        let alert = UIAlertController(title: "Nuevo ingrediente", message: nil, preferredStyle: .alert)
+
+        alert.addTextField { $0.placeholder = "Nombre" }
+        alert.addTextField { $0.placeholder = "Cantidad"; $0.keyboardType = .decimalPad }
+        alert.addTextField { $0.placeholder = "Precio"; $0.keyboardType = .decimalPad }
+
+        alert.addTextField { field in
+            field.placeholder = "Unidad"
+            field.text = self.selectedUnidad
+
+            let picker = UIPickerView()
+            picker.delegate = self
+            picker.dataSource = self
+            picker.selectRow(0, inComponent: 0, animated: false)
+
+            field.inputView = picker
+            self.unidadField = field
         }
 
-        let addAction = UIAlertAction(title: "Agregar", style: .default) { _ in
-            if let ingredient = alert.textFields?.first?.text, !ingredient.isEmpty {
-                self.ingredients.append(ingredient)
-                self.tableView.reloadData()
+        let guardar = UIAlertAction(title: "Guardar", style: .default) { _ in
+            guard
+                let name = alert.textFields?[0].text, !name.isEmpty,
+                let cantidadText = alert.textFields?[1].text, let cantidad = Double(cantidadText),
+                let precioText = alert.textFields?[2].text, let precio = Double(precioText),
+                let unidad = alert.textFields?[3].text, !unidad.isEmpty
+            else {
+                print("Datos inválidos")
+                return
             }
+
+            self.createIngredient(name: name, quantity: cantidad, unit: unidad, price: precio)
         }
 
-        alert.addAction(addAction)
+        alert.addAction(guardar)
         alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+
         present(alert, animated: true)
+    }
+
+    func updateBudgetLabel() {
+        guard let list = shoppingList else {
+            labelBudget.isHidden = true
+            return
+        }
+
+        let presupuesto = list.budget
+        let totalGastado = ingredients.reduce(0) { $0 + $1.price }
+
+        if presupuesto == 0 {
+            labelBudget.isHidden = true
+        } else {
+            labelBudget.isHidden = false
+            let restante = presupuesto - totalGastado
+
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .currency
+            formatter.locale = Locale(identifier: "es_MX")
+
+            labelBudget.text = "Presupuesto restante: \(formatter.string(from: NSNumber(value: restante)) ?? "$0.00")"
+
+            labelBudget.textColor = restante < 0 ? .systemRed : .label
+        }
     }
 }
 
+// MARK: - TableView
 extension IngredientsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -73,17 +142,48 @@ extension IngredientsViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "IngredientCell", for: indexPath)
-        cell.textLabel?.text = ingredients[indexPath.row]
+        let ingredient = ingredients[indexPath.row]
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "IngredientCell")
+        cell.textLabel?.text = "\(ingredient.name ?? "") - \(ingredient.quantity) \(ingredient.unit ?? "")"
+        cell.detailTextLabel?.text = String(format: "$%.2f", ingredient.price)
+        cell.accessoryType = ingredient.isPurchased ? .checkmark : .none
         return cell
     }
 
-    // Marcado como comprado (opcional)
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let ingredient = ingredients[indexPath.row]
+        ingredient.isPurchased.toggle()
+
+        do {
+            try (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext.save()
+            fetchIngredients()
+        } catch {
+            print("Error al actualizar estado de compra")
+        }
+
         tableView.deselectRow(at: indexPath, animated: true)
-        let item = ingredients[indexPath.row]
-        print("Comprado: \(item)")
     }
 }
+
+// MARK: - PickerView
+extension IngredientsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return unidades.count
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return unidades[row]
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedUnidad = unidades[row]
+        unidadField?.text = selectedUnidad
+    }
+}
+
+
+
 
 
