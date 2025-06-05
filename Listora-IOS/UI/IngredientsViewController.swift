@@ -133,11 +133,13 @@ class IngredientsViewController: UIViewController {
                 let unidadText = alert.textFields?[2].text, !unidadText.isEmpty,
                 let precioText = alert.textFields?[3].text, let precio = Double(precioText)
             else {
-                print("Datos inválidos")
+                self.showToast(message: "Datos invalidos")
                 return
             }
 
             self.createIngredient(name: name, quantity: cantidad, unit: unidadText, price: precio)
+            self.showToast(message: "Ingrediente agregado")
+
         }
 
         alert.addAction(guardar)
@@ -212,7 +214,7 @@ class IngredientsViewController: UIViewController {
                 let unidadText = alert.textFields?[2].text, !unidadText.isEmpty,
                 let precioText = alert.textFields?[3].text, let precio = Double(precioText)
             else {
-                print("Datos inválidos")
+                self.showToast(message: "Datos Invalidos")
                 return
             }
 
@@ -220,12 +222,15 @@ class IngredientsViewController: UIViewController {
             ingredient.quantity = cantidad
             ingredient.unit = unidadText
             ingredient.price = precio
+            self.showToast(message: "Ingrediente actualizado")
+
 
             do {
                 try (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext.save()
                 self.fetchIngredients()
             } catch {
-                print("Error al editar ingrediente: \(error)")
+                self.showToast(message: "Error al editar ingrediente")
+
             }
         }
 
@@ -315,8 +320,10 @@ extension IngredientsViewController: UITableViewDataSource, UITableViewDelegate 
                 try context.save()
                 self.fetchIngredients()
                 completion(true)
+                self.showToast(message: "Ingrediente eliminado")
             } catch {
                 print("Error al eliminar ingrediente: \(error)")
+                self.showToast(message: "Error al eliminar")
                 completion(false)
             }
         }

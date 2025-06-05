@@ -24,21 +24,78 @@
             </objects>
             <point key="canvasLocation" x="2819.0839694656488" y="316.90140845070425"/>
         </scene>
-        <!--HistoryViewController-->
-        <scene sceneID="k0t-kh-0Rh">
+        <!--Historial-->
+        <scene sceneID="xx1-WH-ajW">
             <objects>
-                <viewController title="HistoryViewController" id="kCg-jl-A0G" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="4dD-Im-I7C">
+                <viewController storyboardIdentifier="HistoryViewController" id="Ueh-pk-lbv" customClass="HistoryViewController" customModule="Listora_IOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="w85-ih-AMi">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="3lq-Ds-3nI"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4qF-cG-lHc">
+                                <rect key="frame" x="10" y="245" width="373" height="101"/>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Semana" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2cO-Wm-Nwo">
+                                <rect key="frame" x="49" y="191" width="293" height="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="14" id="ofl-uM-rXb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xWP-dz-7Yo">
+                                <rect key="frame" x="49" y="396" width="85" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Anterior"/>
+                                <connections>
+                                    <action selector="semanaAnterior:" destination="Ueh-pk-lbv" eventType="touchUpInside" id="7zG-8a-qkG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hgm-uh-EDq">
+                                <rect key="frame" x="246" y="396" width="96" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Siguiente"/>
+                                <connections>
+                                    <action selector="semanaSiguiente:" destination="Ueh-pk-lbv" eventType="touchUpInside" id="dg6-zb-QAj"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jiD-Oa-Kod">
+                                <rect key="frame" x="96" y="517" width="199" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Exportar Semana Excel"/>
+                                <connections>
+                                    <action selector="exportarCSV:" destination="Ueh-pk-lbv" eventType="touchUpInside" id="11p-gm-lYm"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="cdd-i3-uz2"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="jiD-Oa-Kod" firstAttribute="top" secondItem="xWP-dz-7Yo" secondAttribute="bottom" constant="86" id="0Fn-YN-fOl"/>
+                            <constraint firstItem="2cO-Wm-Nwo" firstAttribute="leading" secondItem="xWP-dz-7Yo" secondAttribute="leading" id="55l-qV-0DE"/>
+                            <constraint firstItem="4qF-cG-lHc" firstAttribute="top" secondItem="2cO-Wm-Nwo" secondAttribute="bottom" constant="40" id="B88-b9-WLt"/>
+                            <constraint firstItem="cdd-i3-uz2" firstAttribute="bottom" secondItem="jiD-Oa-Kod" secondAttribute="bottom" constant="183" id="H1F-rN-GAz"/>
+                            <constraint firstItem="jiD-Oa-Kod" firstAttribute="leading" secondItem="cdd-i3-uz2" secondAttribute="leading" constant="96" id="LlT-5h-wRz"/>
+                            <constraint firstItem="xWP-dz-7Yo" firstAttribute="baseline" secondItem="Hgm-uh-EDq" secondAttribute="baseline" id="O0b-A9-Gza"/>
+                            <constraint firstItem="4qF-cG-lHc" firstAttribute="leading" secondItem="cdd-i3-uz2" secondAttribute="leading" constant="10" id="Rfa-Iu-6ev"/>
+                            <constraint firstItem="2cO-Wm-Nwo" firstAttribute="centerX" secondItem="jiD-Oa-Kod" secondAttribute="centerX" id="Tne-Sk-nBU"/>
+                            <constraint firstItem="2cO-Wm-Nwo" firstAttribute="trailing" secondItem="Hgm-uh-EDq" secondAttribute="trailing" id="d9z-A8-5fm"/>
+                            <constraint firstItem="2cO-Wm-Nwo" firstAttribute="leading" secondItem="cdd-i3-uz2" secondAttribute="leading" constant="49" id="ioi-Ob-MqM"/>
+                            <constraint firstItem="4qF-cG-lHc" firstAttribute="centerX" secondItem="w85-ih-AMi" secondAttribute="centerX" id="jmV-4W-U0x"/>
+                            <constraint firstItem="xWP-dz-7Yo" firstAttribute="top" secondItem="4qF-cG-lHc" secondAttribute="bottom" constant="50" id="o5p-4g-BCT"/>
+                            <constraint firstItem="2cO-Wm-Nwo" firstAttribute="top" secondItem="cdd-i3-uz2" secondAttribute="top" constant="73" id="uX1-fa-bsR"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Historial" image="list.bullet.clipboard.fill" catalog="system" id="SFR-Ye-46Q"/>
+                    <tabBarItem key="tabBarItem" title="Historial" image="list.bullet.clipboard.fill" catalog="system" id="5fi-be-CS2"/>
+                    <connections>
+                        <outlet property="stackGrafica" destination="4qF-cG-lHc" id="QKI-Lk-9At"/>
+                        <outlet property="weekLabel" destination="2cO-Wm-Nwo" id="Ex8-9g-THv"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Y9u-JG-Fes" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="udi-N3-jQL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="497" y="901"/>
+            <point key="canvasLocation" x="497" y="932"/>
         </scene>
         <!--ListViewController-->
         <scene sceneID="BZ9-gX-KwA">
@@ -230,7 +287,7 @@
                     <connections>
                         <segue destination="eeK-6a-XWN" kind="relationship" relationship="viewControllers" id="iPY-rH-PTU"/>
                         <segue destination="XqO-zs-30f" kind="relationship" relationship="viewControllers" id="N2T-b2-FK2"/>
-                        <segue destination="kCg-jl-A0G" kind="relationship" relationship="viewControllers" id="T9X-ee-ehf"/>
+                        <segue destination="Ueh-pk-lbv" kind="relationship" relationship="viewControllers" id="Usy-AS-UHc"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bdm-aZ-WP2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

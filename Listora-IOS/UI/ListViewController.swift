@@ -77,11 +77,14 @@ class ListViewController: UIViewController {
                 let budgetText = alert.textFields?[1].text,
                 let budget = Double(budgetText)
             else {
+                self.showToast(message: "Faltan datos para crear la lista")
                 return
             }
 
             ShoppingListDataManager.shared.createList(name: name, budget: budget, dete: datePicker.date)
             self.loadLists()
+            self.showToast(message: "Lista creada con éxito")
+
         }
 
         alert.addAction(addAction)
@@ -133,10 +136,15 @@ class ListViewController: UIViewController {
                 let name = alert.textFields?[0].text, !name.isEmpty,
                 let budgetText = alert.textFields?[1].text,
                 let budget = Double(budgetText)
-            else { return }
+            else {
+                self.showToast(message: "Faltan datos para editar la lista")
+                return
+            }
 
             ShoppingListDataManager.shared.updateList(list, name: name, budget: budget, date: datePicker.date)
             self.loadLists()
+            self.showToast(message: "Lista actualizada")
+
         }
 
         alert.addAction(saveAction)
@@ -168,8 +176,10 @@ extension ListViewController: UITableViewDelegate {
         let deleteAction = UIContextualAction(style: .destructive, title: "Eliminar") { _, _, completionHandler in
             ShoppingListDataManager.shared.deleteList(list)
             self.loadLists()
+            self.showToast(message: "Lista eliminada")
             completionHandler(true)
         }
+
 
         let editAction = UIContextualAction(style: .normal, title: "Editar") { _, _, completionHandler in
             self.showEditAlert(for: list)
