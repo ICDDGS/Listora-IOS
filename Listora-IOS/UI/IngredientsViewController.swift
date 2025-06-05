@@ -34,8 +34,34 @@ class IngredientsViewController: UIViewController {
             action: #selector(addIngredientTapped)
         )
 
+
         fetchIngredients()
     }
+    @IBAction func irAResumenTapped(_ sender: UIButton) {
+        verificarYMostrarResumen()
+    }
+
+    
+    @objc func goToResumen() {
+        let totalIngredientes = ingredients.count
+        let completados = ingredients.filter { $0.isPurchased }.count
+
+        if completados < totalIngredientes {
+            let alerta = UIAlertController(
+                title: "Lista incompleta",
+                message: "Aún hay ingredientes sin marcar como comprados. ¿Deseas continuar?",
+                preferredStyle: .alert
+            )
+            alerta.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+            alerta.addAction(UIAlertAction(title: "Sí, continuar", style: .default) { _ in
+                self.mostrarResumen()
+            })
+            present(alerta, animated: true)
+        } else {
+            mostrarResumen()
+        }
+    }
+    
 
     func fetchIngredients() {
         guard let list = shoppingList,
@@ -71,10 +97,16 @@ class IngredientsViewController: UIViewController {
     @objc func addIngredientTapped() {
         let alert = UIAlertController(title: "Nuevo ingrediente", message: nil, preferredStyle: .alert)
 
+        // Campo 0: Nombre
         alert.addTextField { $0.placeholder = "Nombre" }
-        alert.addTextField { $0.placeholder = "Cantidad"; $0.keyboardType = .decimalPad }
-        alert.addTextField { $0.placeholder = "Precio"; $0.keyboardType = .decimalPad }
 
+        // Campo 1: Cantidad
+        alert.addTextField {
+            $0.placeholder = "Cantidad"
+            $0.keyboardType = .decimalPad
+        }
+
+        // Campo 2: Unidad (con PickerView)
         alert.addTextField { field in
             field.placeholder = "Unidad"
             field.text = self.selectedUnidad
@@ -88,18 +120,24 @@ class IngredientsViewController: UIViewController {
             self.unidadField = field
         }
 
+        // Campo 3: Precio
+        alert.addTextField {
+            $0.placeholder = "Precio"
+            $0.keyboardType = .decimalPad
+        }
+
         let guardar = UIAlertAction(title: "Guardar", style: .default) { _ in
             guard
                 let name = alert.textFields?[0].text, !name.isEmpty,
                 let cantidadText = alert.textFields?[1].text, let cantidad = Double(cantidadText),
-                let precioText = alert.textFields?[2].text, let precio = Double(precioText),
-                let unidad = alert.textFields?[3].text, !unidad.isEmpty
+                let unidadText = alert.textFields?[2].text, !unidadText.isEmpty,
+                let precioText = alert.textFields?[3].text, let precio = Double(precioText)
             else {
                 print("Datos inválidos")
                 return
             }
 
-            self.createIngredient(name: name, quantity: cantidad, unit: unidad, price: precio)
+            self.createIngredient(name: name, quantity: cantidad, unit: unidadText, price: precio)
         }
 
         alert.addAction(guardar)
@@ -107,6 +145,7 @@ class IngredientsViewController: UIViewController {
 
         present(alert, animated: true)
     }
+
 
     func updateBudgetLabel() {
         guard let list = shoppingList else {
@@ -132,6 +171,100 @@ class IngredientsViewController: UIViewController {
             labelBudget.textColor = restante < 0 ? .systemRed : .label
         }
     }
+    
+    func showEditIngredientAlert(ingredient: IngredientEntity) {
+        let alert = UIAlertController(title: "Editar ingrediente", message: nil, preferredStyle: .alert)
+
+        alert.addTextField { $0.text = ingredient.name }
+
+        alert.addTextField {
+            $0.text = String(ingredient.quantity)
+            $0.keyboardType = .decimalPad
+        }
+
+        // Campo con PickerView para unidad
+        alert.addTextField { field in
+            field.placeholder = "Unidad"
+            field.text = ingredient.unit ?? "kg"
+
+            let picker = UIPickerView()
+            picker.delegate = self
+            picker.dataSource = self
+
+            if let currentIndex = self.unidades.firstIndex(of: ingredient.unit ?? "kg") {
+                picker.selectRow(currentIndex, inComponent: 0, animated: false)
+                self.selectedUnidad = self.unidades[currentIndex]
+            }
+
+            field.inputView = picker
+            self.unidadField = field
+        }
+
+        alert.addTextField {
+            $0.text = String(ingredient.price)
+            $0.keyboardType = .decimalPad
+        }
+
+        let guardar = UIAlertAction(title: "Guardar", style: .default) { _ in
+            guard
+                let name = alert.textFields?[0].text, !name.isEmpty,
+                let cantidadText = alert.textFields?[1].text, let cantidad = Double(cantidadText),
+                let unidadText = alert.textFields?[2].text, !unidadText.isEmpty,
+                let precioText = alert.textFields?[3].text, let precio = Double(precioText)
+            else {
+                print("Datos inválidos")
+                return
+            }
+
+            ingredient.name = name
+            ingredient.quantity = cantidad
+            ingredient.unit = unidadText
+            ingredient.price = precio
+
+            do {
+                try (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext.save()
+                self.fetchIngredients()
+            } catch {
+                print("Error al editar ingrediente: \(error)")
+            }
+        }
+
+        alert.addAction(guardar)
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+
+        present(alert, animated: true)
+    }
+    func verificarYMostrarResumen() {
+        let totalIngredientes = ingredients.count
+        let completados = ingredients.filter { $0.isPurchased }.count
+
+        if completados < totalIngredientes {
+            let alerta = UIAlertController(
+                title: "Lista incompleta",
+                message: "Aún hay ingredientes sin marcar como comprados. ¿Deseas continuar?",
+                preferredStyle: .alert
+            )
+            alerta.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+            alerta.addAction(UIAlertAction(title: "Sí, continuar", style: .default) { _ in
+                self.mostrarResumen()
+            })
+            present(alerta, animated: true)
+        } else {
+            mostrarResumen()
+        }
+    }
+    func mostrarResumen() {
+        guard let resumenVC = storyboard?.instantiateViewController(withIdentifier: "ResumenViewController") as? ResumenViewController else {
+            return
+        }
+        resumenVC.compras = ingredients.filter { $0.isPurchased }
+        resumenVC.total = ingredients.reduce(0) { $0 + $1.price }
+        navigationController?.pushViewController(resumenVC, animated: true)
+    }
+
+
+
+
 }
 
 // MARK: - TableView
@@ -163,6 +296,36 @@ extension IngredientsViewController: UITableViewDataSource, UITableViewDelegate 
 
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let ingredient = ingredients[indexPath.row]
+
+        // Acción de eliminar
+        let deleteAction = UIContextualAction(style: .destructive, title: "Eliminar") { _, _, completion in
+            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+            context.delete(ingredient)
+            do {
+                try context.save()
+                self.fetchIngredients()
+                completion(true)
+            } catch {
+                print("Error al eliminar ingrediente: \(error)")
+                completion(false)
+            }
+        }
+
+        // Acción de editar
+        let editAction = UIContextualAction(style: .normal, title: "Editar") { _, _, completion in
+            self.showEditIngredientAlert(ingredient: ingredient)
+            completion(true)
+        }
+
+        editAction.backgroundColor = .systemBlue
+
+        return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
+    }
+
+    
 }
 
 // MARK: - PickerView

@@ -104,7 +104,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pmZ-yA-adW">
-                                <rect key="frame" x="10" y="206" width="373" height="619"/>
+                                <rect key="frame" x="10" y="206" width="373" height="496"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Presupuesto" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="20Y-u3-HOD">
@@ -113,17 +113,29 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vzJ-Ct-WrD">
+                                <rect key="frame" x="140" y="717" width="113" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Continuar"/>
+                                <connections>
+                                    <action selector="irAResumenTapped:" destination="Uya-N7-tu5" eventType="touchUpInside" id="IJf-nX-o3e"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="bTX-Qd-CPc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottomMargin" secondItem="pmZ-yA-adW" secondAttribute="bottom" constant="-90" id="0UZ-Gp-a6x"/>
+                            <constraint firstAttribute="trailing" secondItem="vzJ-Ct-WrD" secondAttribute="trailing" constant="140" id="8QT-xN-M0I"/>
+                            <constraint firstItem="pmZ-yA-adW" firstAttribute="leading" secondItem="bTX-Qd-CPc" secondAttribute="leading" constant="10" id="DWO-OL-ntg"/>
                             <constraint firstItem="pmZ-yA-adW" firstAttribute="leading" secondItem="bTX-Qd-CPc" secondAttribute="leading" constant="10" id="LI2-kD-Rt5"/>
+                            <constraint firstItem="vzJ-Ct-WrD" firstAttribute="leading" secondItem="5Pr-Av-2I1" secondAttribute="leading" constant="140" id="New-Jo-ELs"/>
+                            <constraint firstItem="vzJ-Ct-WrD" firstAttribute="top" secondItem="pmZ-yA-adW" secondAttribute="bottom" constant="15" id="SEU-pb-T9n"/>
+                            <constraint firstAttribute="bottom" secondItem="vzJ-Ct-WrD" secondAttribute="bottom" constant="100" id="Tfn-VW-LbW"/>
                             <constraint firstItem="pmZ-yA-adW" firstAttribute="top" secondItem="bTX-Qd-CPc" secondAttribute="top" constant="44" id="W87-JV-gAP"/>
                             <constraint firstItem="bTX-Qd-CPc" firstAttribute="trailing" secondItem="20Y-u3-HOD" secondAttribute="trailing" constant="10" id="aQc-y4-pzx"/>
                             <constraint firstItem="20Y-u3-HOD" firstAttribute="top" secondItem="bTX-Qd-CPc" secondAttribute="top" id="gcU-aa-s0A"/>
-                            <constraint firstItem="pmZ-yA-adW" firstAttribute="centerX" secondItem="5Pr-Av-2I1" secondAttribute="centerX" id="hkl-XW-0OT"/>
                             <constraint firstItem="20Y-u3-HOD" firstAttribute="leading" secondItem="bTX-Qd-CPc" secondAttribute="leading" constant="10" id="smM-gD-Q4t"/>
+                            <constraint firstItem="bTX-Qd-CPc" firstAttribute="trailing" secondItem="pmZ-yA-adW" secondAttribute="trailing" constant="10" id="xKr-ll-HDS"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Oaa-RG-dJo"/>
@@ -134,7 +146,77 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qWc-qU-zeI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3759.5419847328244" y="-313.38028169014086"/>
+            <point key="canvasLocation" x="3704.5801526717555" y="-313.38028169014086"/>
+        </scene>
+        <!--ResumenViewController-->
+        <scene sceneID="88p-tR-nKS">
+            <objects>
+                <viewController storyboardIdentifier="ResumenViewController" title="ResumenViewController" id="ZBa-7R-0kd" customClass="ResumenViewController" customModule="Listora_IOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="azf-FY-vBd">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total gastado $0.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pyO-49-fQZ">
+                                <rect key="frame" x="20" y="138" width="353" height="26"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="AbC-rP-Kku">
+                                <rect key="frame" x="10" y="228" width="373" height="456"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qju-vr-YbH">
+                                <rect key="frame" x="123" y="699" width="147" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Exportar a Excel"/>
+                                <connections>
+                                    <action selector="exportarExcel:" destination="ZBa-7R-0kd" eventType="touchUpInside" id="u7A-iO-C6l"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chZ-sb-bm1">
+                                <rect key="frame" x="147" y="744" width="99" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Continuar"/>
+                                <connections>
+                                    <action selector="volverAListas:" destination="ZBa-7R-0kd" eventType="touchUpInside" id="ox7-86-rbU"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Compras Registradas" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ecS-yq-qYr">
+                                <rect key="frame" x="90" y="189" width="213" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="30D-Ow-LS5"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ecS-yq-qYr" firstAttribute="top" secondItem="pyO-49-fQZ" secondAttribute="bottom" constant="25" id="34S-h3-LHk"/>
+                            <constraint firstItem="qju-vr-YbH" firstAttribute="centerX" secondItem="chZ-sb-bm1" secondAttribute="centerX" id="86D-ua-jzu"/>
+                            <constraint firstItem="30D-Ow-LS5" firstAttribute="trailing" secondItem="ecS-yq-qYr" secondAttribute="trailing" constant="90" id="92T-iP-zxv"/>
+                            <constraint firstItem="qju-vr-YbH" firstAttribute="centerX" secondItem="AbC-rP-Kku" secondAttribute="centerX" id="AUe-zQ-CjY"/>
+                            <constraint firstItem="qju-vr-YbH" firstAttribute="top" secondItem="AbC-rP-Kku" secondAttribute="bottom" constant="15" id="BhP-l6-bFV"/>
+                            <constraint firstItem="30D-Ow-LS5" firstAttribute="trailing" secondItem="pyO-49-fQZ" secondAttribute="trailing" constant="20" id="E6l-XQ-isj"/>
+                            <constraint firstItem="AbC-rP-Kku" firstAttribute="top" secondItem="ecS-yq-qYr" secondAttribute="bottom" constant="15" id="FwG-F0-Uq3"/>
+                            <constraint firstItem="AbC-rP-Kku" firstAttribute="leading" secondItem="30D-Ow-LS5" secondAttribute="leading" constant="10" id="LfJ-RE-OXs"/>
+                            <constraint firstItem="pyO-49-fQZ" firstAttribute="leading" secondItem="30D-Ow-LS5" secondAttribute="leading" constant="20" id="SV3-Dy-G8v"/>
+                            <constraint firstItem="chZ-sb-bm1" firstAttribute="top" secondItem="qju-vr-YbH" secondAttribute="bottom" constant="10" id="cYK-08-O8J"/>
+                            <constraint firstItem="30D-Ow-LS5" firstAttribute="trailing" secondItem="AbC-rP-Kku" secondAttribute="trailing" constant="10" id="hUk-3Q-aQV"/>
+                            <constraint firstItem="30D-Ow-LS5" firstAttribute="bottom" secondItem="AbC-rP-Kku" secondAttribute="bottom" constant="100" id="ka9-aR-N3V"/>
+                            <constraint firstItem="pyO-49-fQZ" firstAttribute="top" secondItem="30D-Ow-LS5" secondAttribute="top" constant="20" id="mfq-qy-jzf"/>
+                            <constraint firstItem="30D-Ow-LS5" firstAttribute="bottom" secondItem="pyO-49-fQZ" secondAttribute="bottom" constant="620" id="ubG-T0-Gbb"/>
+                            <constraint firstItem="ecS-yq-qYr" firstAttribute="leading" secondItem="30D-Ow-LS5" secondAttribute="leading" constant="90" id="w0z-1U-Kzb"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="labelTotal" destination="pyO-49-fQZ" id="9IR-4S-AXw"/>
+                        <outlet property="tableView" destination="AbC-rP-Kku" id="FNu-u6-Kod"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qda-vp-oGb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4606.8702290076335" y="-313.38028169014086"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="U52-P4-f7k">
