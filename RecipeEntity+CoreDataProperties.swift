@@ -2,7 +2,7 @@
 //  RecipeEntity+CoreDataProperties.swift
 //  Listora-IOS
 //
-//  Created by Alejandro on 06/06/25.
+//  Created by Alejandro on 12/06/25.
 //
 //
 
@@ -16,8 +16,9 @@ extension RecipeEntity {
         return NSFetchRequest<RecipeEntity>(entityName: "RecipeEntity")
     }
 
-    @NSManaged public var name: String?
     @NSManaged public var descript: String?
+    @NSManaged public var name: String?
+    @NSManaged public var steps: String?
     @NSManaged public var ingredient: NSSet?
 
 }

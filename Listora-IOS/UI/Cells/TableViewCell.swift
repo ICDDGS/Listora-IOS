@@ -16,6 +16,12 @@ class TableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         nameLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        contentView.backgroundColor = UIColor(named: "primary")
+        nameLabel.textColor = UIColor(named: "onPrimary")
+        dateLabel.textColor = UIColor(named: "onPrimary")
+        presupuestoLabel.textColor = UIColor(named: "onPrimary")
+        
+        contentView.layer.cornerRadius = 12
         
     }
     

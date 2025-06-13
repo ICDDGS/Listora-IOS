@@ -15,6 +15,9 @@ class RecipeTableViewCell: UITableViewCell {
         super.awakeFromNib()
         nameLabel.font = UIFont.boldSystemFont(ofSize: 20)
         
+        contentView.layer.cornerRadius = 12
+        contentView.layer.masksToBounds = true
+        
     }
 }
 

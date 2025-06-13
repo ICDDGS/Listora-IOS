@@ -11,21 +11,43 @@ import CoreData
 class ListViewController: UIViewController {
 
     var shoppingLists: [ShoppingListEntity] = []
+    
+    let primaryColor = UIColor(named: "primary")
+    let secondaryColor = UIColor(named: "secondary")
+    let backgroundColor = UIColor(named: "background")
+    let onPrimaryColor = UIColor(named: "onPrimary")
 
+    
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addListButton: UIButton!
+
+    
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Mis listas"
 
+        view.backgroundColor = UIColor(named: "background")
+        navigationController?.navigationBar.barTintColor = UIColor(named: "primary")
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor(named: "onPrimary") ?? .white]
+            
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.backgroundColor = UIColor(named: "background")
 
         let nib = UINib(nibName: "TableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "TableViewCell")
+        
+        addListButton.backgroundColor = secondaryColor
+        addListButton.setTitleColor(.white, for: .normal)
+        addListButton.layer.cornerRadius = 12
+
+
 
         loadLists()
     }
+
 
     // MARK: - Cargar desde el DataManager
 
@@ -38,6 +60,10 @@ class ListViewController: UIViewController {
 
     @IBAction func addListAction(_ sender: Any) {
         let alert = UIAlertController(title: "Nueva Lista", message: nil, preferredStyle: .alert)
+        
+        let titleFont = [NSAttributedString.Key.foregroundColor: UIColor(named: "primary") ?? .blue]
+            let attributedTitle = NSAttributedString(string: "Nueva Lista", attributes: titleFont)
+            alert.setValue(attributedTitle, forKey: "attributedTitle")
 
         alert.addTextField { textField in
             textField.placeholder = "Nombre de la lista"
@@ -157,8 +183,27 @@ class ListViewController: UIViewController {
 // MARK: - TableView Delegates
 
 extension ListViewController: UITableViewDelegate {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return shoppingLists.count
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1 // una celda por sección
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 12 // espacio entre celdas
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let spacer = UIView()
+        spacer.backgroundColor = .clear
+        return spacer
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedList = shoppingLists[indexPath.row]
+        let selectedList = shoppingLists[indexPath.section]
 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let ingredientsVC = storyboard.instantiateViewController(withIdentifier: "IngredientsViewController") as? IngredientsViewController {
@@ -170,52 +215,42 @@ extension ListViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-
-        let list = shoppingLists[indexPath.row]
-
-        let deleteAction = UIContextualAction(style: .destructive, title: "Eliminar") { _, _, completionHandler in
+        let list = shoppingLists[indexPath.section]
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: "Eliminar") { _, _, completion in
             ShoppingListDataManager.shared.deleteList(list)
             self.loadLists()
             self.showToast(message: "Lista eliminada")
-            completionHandler(true)
+            completion(true)
         }
 
-
-        let editAction = UIContextualAction(style: .normal, title: "Editar") { _, _, completionHandler in
+        let editAction = UIContextualAction(style: .normal, title: "Editar") { _, _, completion in
             self.showEditAlert(for: list)
-            completionHandler(true)
+            completion(true)
         }
 
         editAction.backgroundColor = .systemOrange
-
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
-
 }
 
 extension ListViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return shoppingLists.count
-    }
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as? TableViewCell else {
             return UITableViewCell()
         }
 
-        let list = shoppingLists[indexPath.row]
+        let list = shoppingLists[indexPath.section]
         cell.nameLabel.text = list.name
 
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
-        if let date = list.date {
-            cell.dateLabel.text = formatter.string(from: date)
-        } else {
-            cell.dateLabel.text = "-"
-        }
-
+        cell.dateLabel.text = list.date != nil ? formatter.string(from: list.date!) : "-"
         cell.presupuestoLabel.text = String(format: "$%.2f", list.budget)
 
         return cell
     }
+
+
 }

@@ -5,6 +5,8 @@
 //  Created by Alejandro on 06/06/25.
 //
 
+// RecipeListViewController.swift
+
 import UIKit
 import CoreData
 
@@ -22,6 +24,7 @@ class RecipeListViewController: UIViewController {
 
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.backgroundColor = UIColor(named: "background") ?? .systemGroupedBackground
 
         let nib = UINib(nibName: "RecipeTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "RecipeTableViewCell")
@@ -40,11 +43,8 @@ class RecipeListViewController: UIViewController {
 
     private func showRecipeAlert() {
         let alert = UIAlertController(title: "Nueva Receta", message: nil, preferredStyle: .alert)
-
-        // Campo de nombre
         alert.addTextField { $0.placeholder = "Nombre de la receta" }
 
-        // Altura del UIAlertController
         let height = NSLayoutConstraint(item: alert.view!, attribute: .height,
                                         relatedBy: .equal,
                                         toItem: nil,
@@ -52,13 +52,11 @@ class RecipeListViewController: UIViewController {
                                         multiplier: 1, constant: 270)
         alert.view.addConstraint(height)
 
-        // Picker de categoría
         let pickerView = UIPickerView()
         pickerView.translatesAutoresizingMaskIntoConstraints = false
         pickerView.dataSource = self
         pickerView.delegate = self
         pickerView.selectRow(0, inComponent: 0, animated: false)
-
         alert.view.addSubview(pickerView)
 
         NSLayoutConstraint.activate([
@@ -84,7 +82,6 @@ class RecipeListViewController: UIViewController {
         present(alert, animated: true)
     }
 
-
     func showToast(message: String) {
         let toast = UILabel(frame: CGRect(x: 40, y: self.view.frame.size.height - 100,
                                           width: self.view.frame.size.width - 80, height: 35))
@@ -101,16 +98,14 @@ class RecipeListViewController: UIViewController {
             toast.alpha = 0.0
         }) { _ in toast.removeFromSuperview() }
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showRecipeDetail",
            let destinationVC = segue.destination as? RecipeDetailViewController,
            let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.recipe = recipes[indexPath.row]
+            destinationVC.recipe = recipes[indexPath.section]
         }
     }
-
-
 }
 
 // MARK: - UIPickerView
@@ -135,26 +130,41 @@ extension RecipeListViewController: UIPickerViewDataSource, UIPickerViewDelegate
 
 extension RecipeListViewController: UITableViewDelegate, UITableViewDataSource {
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return recipes.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecipeTableViewCell", for: indexPath) as? RecipeTableViewCell else {
-            return UITableViewCell()
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1 // una celda por sección
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 12 // separación entre celdas
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let spacer = UIView()
+        spacer.backgroundColor = .clear
+        return spacer
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedRecipe = recipes[indexPath.section]
+
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let detailVC = storyboard.instantiateViewController(withIdentifier: "RecipeDetailViewController") as? RecipeDetailViewController {
+            detailVC.recipe = selectedRecipe
+            navigationController?.pushViewController(detailVC, animated: true)
         }
 
-        let recipe = recipes[indexPath.row]
-        cell.nameLabel.text = recipe.name
-        cell.descLabel.text = recipe.descript
-        return cell
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
     -> UISwipeActionsConfiguration? {
 
-        let recipe = recipes[indexPath.row]
+        let recipe = recipes[indexPath.section]
         let deleteAction = UIContextualAction(style: .destructive, title: "Eliminar") { _, _, completion in
             RecipesListDataManager.shared.deleteList(recipe)
             self.loadLists()
@@ -165,20 +175,17 @@ extension RecipeListViewController: UITableViewDelegate, UITableViewDataSource {
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedRecipe = recipes[indexPath.row]
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let detailVC = storyboard.instantiateViewController(withIdentifier: "RecipeDetailViewController") as? RecipeDetailViewController {
-            detailVC.recipe = selectedRecipe
-            navigationController?.pushViewController(detailVC, animated: true)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecipeTableViewCell", for: indexPath) as? RecipeTableViewCell else {
+            return UITableViewCell()
         }
-        
-        tableView.deselectRow(at: indexPath, animated: true)
+
+        let recipe = recipes[indexPath.section]
+        cell.nameLabel.text = recipe.name
+        cell.descLabel.text = recipe.descript
+
+        return cell
     }
-
-
-
 }
-
 
