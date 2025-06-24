@@ -139,6 +139,12 @@ class HistoryViewController: UIViewController {
         default: return eng
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        actualizarSemana()
+    }
+
 
 
 }

@@ -65,7 +65,7 @@ class RecipeDetailViewController: UIViewController {
         nameLabel.text = recipe.name
 
         categoryLabel.font = .systemFont(ofSize: 16)
-        categoryLabel.textColor = .gray
+        categoryLabel.textColor = .black
         categoryLabel.text = "Categoría: \(recipe.descript ?? "Sin categoría")"
 
         addToListButton.setTitle("Agregar a lista", for: .normal)
@@ -76,6 +76,7 @@ class RecipeDetailViewController: UIViewController {
 
         quantityLabel.text = "Cantidad"
         quantityLabel.font = .systemFont(ofSize: 16)
+        quantityLabel.textColor = .black
 
         minusButton.setTitle("-", for: .normal)
         minusButton.addTarget(self, action: #selector(decreaseQuantity), for: .touchUpInside)
@@ -85,6 +86,7 @@ class RecipeDetailViewController: UIViewController {
 
         quantityValueLabel.text = "1"
         quantityValueLabel.font = .systemFont(ofSize: 16)
+        quantityValueLabel.textColor = .black
 
         tableView.isScrollEnabled = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "RecipeIngredientCell")
@@ -99,7 +101,8 @@ class RecipeDetailViewController: UIViewController {
 
         preparationLabel.text = "Pasos de Preparación"
         preparationLabel.font = .systemFont(ofSize: 18, weight: .semibold)
-
+        preparationLabel.textColor = .black
+        
         preparationTextView.text = recipe.steps ?? "Escribe los pasos aquí..."
         preparationTextView.font = .systemFont(ofSize: 16)
         preparationTextView.backgroundColor = UIColor.systemGray6
@@ -203,6 +206,7 @@ class RecipeDetailViewController: UIViewController {
             do {
                 try self.context.save()
                 self.fetchIngredients()
+                self.showToast(message: "Ingrediente agregado")
             } catch {
                 print("❌ Error al guardar: \(error)")
             }
@@ -259,6 +263,7 @@ class RecipeDetailViewController: UIViewController {
 
         do {
             try context.save()
+            self.showToast(message: "Ingredientes agregados a la lista")
         } catch {
             print("Error al guardar en la lista: \(error)")
         }
@@ -293,17 +298,61 @@ extension RecipeDetailViewController: UITableViewDataSource, UITableViewDelegate
         let delete = UIContextualAction(style: .destructive, title: "Eliminar") { _, _, done in
             self.context.delete(ingredient)
             try? self.context.save()
+            self.showToast(message: "Ingrediente eliminado")
             self.fetchIngredients()
             done(true)
         }
 
         let edit = UIContextualAction(style: .normal, title: "Editar") { _, _, done in
-            self.addIngredientTapped() // Simplified for now
+            let alert = UIAlertController(title: "Editar Ingrediente", message: nil, preferredStyle: .alert)
+            alert.addTextField { $0.text = ingredient.name }
+            alert.addTextField { $0.text = "\(ingredient.quantity)"; $0.keyboardType = .decimalPad }
+            alert.addTextField { $0.text = ingredient.unit }
+
+            alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Guardar", style: .default) { _ in
+                guard let name = alert.textFields?[0].text, !name.isEmpty,
+                      let qtyText = alert.textFields?[1].text, let qty = Double(qtyText),
+                      let unit = alert.textFields?[2].text else { return }
+
+                ingredient.name = name
+                ingredient.quantity = qty
+                ingredient.unit = unit
+
+                do {
+                    try self.context.save()
+                    self.fetchIngredients()
+                    self.showToast(message: "Ingrediente editado")
+                } catch {
+                    print("Error al actualizar ingrediente: \(error)")
+                }
+            })
+
+            self.present(alert, animated: true)
             done(true)
         }
 
+
         return UISwipeActionsConfiguration(actions: [delete, edit])
     }
+    
+    func showToast(message: String) {
+        let toast = UILabel(frame: CGRect(x: 40, y: self.view.frame.size.height - 100,
+                                          width: self.view.frame.size.width - 80, height: 35))
+        toast.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        toast.textColor = .white
+        toast.textAlignment = .center
+        toast.font = UIFont.systemFont(ofSize: 14.0)
+        toast.text = message
+        toast.alpha = 1.0
+        toast.layer.cornerRadius = 10
+        toast.clipsToBounds = true
+        view.addSubview(toast)
+        UIView.animate(withDuration: 3.0, delay: 0.5, options: .curveEaseOut, animations: {
+            toast.alpha = 0.0
+        }) { _ in toast.removeFromSuperview() }
+    }
+
 }
 
 extension Double {
