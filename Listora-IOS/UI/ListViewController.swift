@@ -26,7 +26,6 @@ class ListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Mis listas"
 
         view.backgroundColor = UIColor(named: "background")
         navigationController?.navigationBar.barTintColor = UIColor(named: "primary")

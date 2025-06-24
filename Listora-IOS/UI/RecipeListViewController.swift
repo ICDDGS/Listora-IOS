@@ -20,7 +20,6 @@ class RecipeListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Mis Recetas"
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -43,15 +42,32 @@ class RecipeListViewController: UIViewController {
 
     private func showRecipeAlert() {
         let alert = UIAlertController(title: "Nueva Receta", message: nil, preferredStyle: .alert)
+
         alert.addTextField { $0.placeholder = "Nombre de la receta" }
 
+        // Ajustamos la altura del diálogo
         let height = NSLayoutConstraint(item: alert.view!, attribute: .height,
                                         relatedBy: .equal,
                                         toItem: nil,
                                         attribute: .notAnAttribute,
-                                        multiplier: 1, constant: 270)
+                                        multiplier: 1, constant: 310)
         alert.view.addConstraint(height)
 
+        // === Etiqueta: "Seleccionar categoría" ===
+        let categoryLabel = UILabel()
+        categoryLabel.text = "Seleccionar categoría"
+        categoryLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        categoryLabel.textColor = .gray
+        categoryLabel.textAlignment = .center
+        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
+        alert.view.addSubview(categoryLabel)
+
+        NSLayoutConstraint.activate([
+            categoryLabel.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 120),
+            categoryLabel.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor)
+        ])
+
+        // === PickerView ===
         let pickerView = UIPickerView()
         pickerView.translatesAutoresizingMaskIntoConstraints = false
         pickerView.dataSource = self
@@ -60,12 +76,13 @@ class RecipeListViewController: UIViewController {
         alert.view.addSubview(pickerView)
 
         NSLayoutConstraint.activate([
+            pickerView.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 4),
             pickerView.leadingAnchor.constraint(equalTo: alert.view.leadingAnchor, constant: 20),
             pickerView.trailingAnchor.constraint(equalTo: alert.view.trailingAnchor, constant: -20),
-            pickerView.bottomAnchor.constraint(equalTo: alert.view.bottomAnchor, constant: -60),
-            pickerView.heightAnchor.constraint(equalToConstant: 120)
+            pickerView.heightAnchor.constraint(equalToConstant: 100)
         ])
 
+        // Acciones
         let saveAction = UIAlertAction(title: "Guardar", style: .default) { _ in
             guard let name = alert.textFields?.first?.text, !name.isEmpty else {
                 self.showToast(message: "Falta el nombre de la receta")
@@ -81,6 +98,7 @@ class RecipeListViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
         present(alert, animated: true)
     }
+
 
     func showToast(message: String) {
         let toast = UILabel(frame: CGRect(x: 40, y: self.view.frame.size.height - 100,
@@ -106,6 +124,74 @@ class RecipeListViewController: UIViewController {
             destinationVC.recipe = recipes[indexPath.section]
         }
     }
+    func showEditRecipeAlert(for recipe: RecipeEntity) {
+        let alert = UIAlertController(title: "Editar Receta", message: nil, preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.placeholder = "Nombre de la receta"
+            textField.text = recipe.name
+        }
+
+        let height = NSLayoutConstraint(item: alert.view!, attribute: .height,
+                                        relatedBy: .equal,
+                                        toItem: nil,
+                                        attribute: .notAnAttribute,
+                                        multiplier: 1, constant: 310)
+        alert.view.addConstraint(height)
+
+        let categoryLabel = UILabel()
+        categoryLabel.text = "Seleccionar categoría"
+        categoryLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        categoryLabel.textColor = .gray
+        categoryLabel.textAlignment = .center
+        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
+        alert.view.addSubview(categoryLabel)
+
+        NSLayoutConstraint.activate([
+            categoryLabel.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 120),
+            categoryLabel.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor)
+        ])
+
+        let pickerView = UIPickerView()
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        pickerView.dataSource = self
+        pickerView.delegate = self
+
+        if let index = pickerOptions.firstIndex(of: recipe.descript ?? "") {
+            pickerView.selectRow(index, inComponent: 0, animated: false)
+            selectedPickerValue = pickerOptions[index]
+        }
+
+        alert.view.addSubview(pickerView)
+
+        NSLayoutConstraint.activate([
+            pickerView.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 4),
+            pickerView.leadingAnchor.constraint(equalTo: alert.view.leadingAnchor, constant: 20),
+            pickerView.trailingAnchor.constraint(equalTo: alert.view.trailingAnchor, constant: -20),
+            pickerView.heightAnchor.constraint(equalToConstant: 100)
+        ])
+
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Guardar", style: .default) { _ in
+            guard let name = alert.textFields?.first?.text, !name.isEmpty else {
+                self.showToast(message: "Falta el nombre de la receta")
+                return
+            }
+
+            recipe.name = name
+            recipe.descript = self.selectedPickerValue
+
+            do {
+                try recipe.managedObjectContext?.save()
+                self.loadLists()
+                self.showToast(message: "Receta actualizada")
+            } catch {
+                print("Error al guardar edición de receta: \(error)")
+            }
+        })
+
+        present(alert, animated: true)
+    }
+
 }
 
 // MARK: - UIPickerView
@@ -165,6 +251,7 @@ extension RecipeListViewController: UITableViewDelegate, UITableViewDataSource {
     -> UISwipeActionsConfiguration? {
 
         let recipe = recipes[indexPath.section]
+
         let deleteAction = UIContextualAction(style: .destructive, title: "Eliminar") { _, _, completion in
             RecipesListDataManager.shared.deleteList(recipe)
             self.loadLists()
@@ -172,7 +259,14 @@ extension RecipeListViewController: UITableViewDelegate, UITableViewDataSource {
             completion(true)
         }
 
-        return UISwipeActionsConfiguration(actions: [deleteAction])
+        let editAction = UIContextualAction(style: .normal, title: "Editar") { _, _, completion in
+            self.showEditRecipeAlert(for: recipe)
+            completion(true)
+        }
+        editAction.backgroundColor = .systemOrange
+
+        return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
+
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="YDc-xr-Wpv">
-                                <rect key="frame" x="10" y="217" width="373" height="468"/>
+                                <rect key="frame" x="10" y="275" width="373" height="410"/>
                                 <color key="backgroundColor" name="background"/>
                                 <color key="separatorColor" name="secondary"/>
                                 <color key="sectionIndexColor" name="onPrimary"/>
@@ -36,10 +36,20 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mis Recetas" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="owl-pj-9o7">
+                                <rect key="frame" x="15" y="162" width="363" height="36"/>
+                                <color key="backgroundColor" name="primary"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="cai-fS-hJo"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" name="onPrimary"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LUN-Vx-cVd">
-                                <rect key="frame" x="10" y="172" width="373" height="35"/>
+                                <rect key="frame" x="10" y="221" width="373" height="35"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Agregar Lista">
+                                <buttonConfiguration key="configuration" style="filled" title="Agregar Receta">
                                     <color key="baseForegroundColor" name="onPrimary"/>
                                     <color key="baseBackgroundColor" name="secondary"/>
                                 </buttonConfiguration>
@@ -51,13 +61,16 @@
                         <viewLayoutGuide key="safeArea" id="DOK-1b-hbe"/>
                         <color key="backgroundColor" name="background"/>
                         <constraints>
-                            <constraint firstItem="LUN-Vx-cVd" firstAttribute="leading" secondItem="DOK-1b-hbe" secondAttribute="leading" constant="10" id="0cc-8w-wlL"/>
-                            <constraint firstItem="LUN-Vx-cVd" firstAttribute="top" secondItem="DOK-1b-hbe" secondAttribute="top" constant="10" id="F0p-RJ-SHf"/>
-                            <constraint firstItem="DOK-1b-hbe" firstAttribute="bottom" secondItem="YDc-xr-Wpv" secondAttribute="bottom" constant="50" id="Pa2-rq-FuB"/>
-                            <constraint firstItem="DOK-1b-hbe" firstAttribute="trailing" secondItem="LUN-Vx-cVd" secondAttribute="trailing" constant="10" id="StA-BL-ar7"/>
-                            <constraint firstItem="DOK-1b-hbe" firstAttribute="trailing" secondItem="YDc-xr-Wpv" secondAttribute="trailing" constant="10" id="Tbr-VW-E62"/>
-                            <constraint firstItem="YDc-xr-Wpv" firstAttribute="top" secondItem="LUN-Vx-cVd" secondAttribute="bottom" constant="10" id="ftL-7T-Ty0"/>
-                            <constraint firstItem="YDc-xr-Wpv" firstAttribute="leading" secondItem="DOK-1b-hbe" secondAttribute="leading" constant="10" id="yqR-pq-CTv"/>
+                            <constraint firstItem="owl-pj-9o7" firstAttribute="leading" secondItem="DOK-1b-hbe" secondAttribute="leading" constant="15" id="0eY-bO-Uca"/>
+                            <constraint firstItem="owl-pj-9o7" firstAttribute="centerX" secondItem="LUN-Vx-cVd" secondAttribute="centerX" id="4m2-C7-RtM"/>
+                            <constraint firstItem="LUN-Vx-cVd" firstAttribute="leading" secondItem="DOK-1b-hbe" secondAttribute="leading" constant="10" id="Bov-UJ-rjE"/>
+                            <constraint firstItem="DOK-1b-hbe" firstAttribute="trailing" secondItem="owl-pj-9o7" secondAttribute="trailing" constant="15" id="OYg-YI-hNL"/>
+                            <constraint firstItem="LUN-Vx-cVd" firstAttribute="trailing" secondItem="YDc-xr-Wpv" secondAttribute="trailing" id="PGO-dK-b7e"/>
+                            <constraint firstItem="LUN-Vx-cVd" firstAttribute="leading" secondItem="YDc-xr-Wpv" secondAttribute="leading" id="hx1-hf-Cpx"/>
+                            <constraint firstItem="owl-pj-9o7" firstAttribute="top" secondItem="DOK-1b-hbe" secondAttribute="top" id="p2r-tL-M1d"/>
+                            <constraint firstItem="YDc-xr-Wpv" firstAttribute="top" secondItem="LUN-Vx-cVd" secondAttribute="bottom" constant="19" id="pRh-th-UZS"/>
+                            <constraint firstItem="DOK-1b-hbe" firstAttribute="bottom" secondItem="YDc-xr-Wpv" secondAttribute="bottom" constant="50" id="r6h-MV-8kv"/>
+                            <constraint firstItem="LUN-Vx-cVd" firstAttribute="top" secondItem="owl-pj-9o7" secondAttribute="bottom" constant="23" id="tVt-Ua-wZg"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="RYu-sP-Yoh"/>
@@ -72,7 +85,6 @@
         <!--RecipeDetailViewController-->
         <scene sceneID="Ogb-a3-cYP">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="YP2-eY-UKb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="RecipeDetailViewController" title="RecipeDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="FfE-lQ-s4f" customClass="RecipeDetailViewController" customModule="Listora_IOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="okn-Z5-7wU">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
@@ -82,13 +94,14 @@
                     </view>
                     <navigationItem key="navigationItem" id="OH1-n2-ct7"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YP2-eY-UKb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3744.2748091603053" y="507.74647887323948"/>
         </scene>
-        <!--Historial-->
+        <!--Estadisticas-->
         <scene sceneID="xx1-WH-ajW">
             <objects>
-                <viewController storyboardIdentifier="HistoryViewController" id="Ueh-pk-lbv" customClass="HistoryViewController" customModule="Listora_IOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HistoryViewController" title="Estadisticas" id="Ueh-pk-lbv" customClass="HistoryViewController" customModule="Listora_IOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="w85-ih-AMi">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -155,9 +168,10 @@
                             <constraint firstItem="4qF-cG-lHc" firstAttribute="centerX" secondItem="w85-ih-AMi" secondAttribute="centerX" id="jmV-4W-U0x"/>
                             <constraint firstItem="xWP-dz-7Yo" firstAttribute="top" secondItem="4qF-cG-lHc" secondAttribute="bottom" constant="50" id="o5p-4g-BCT"/>
                             <constraint firstItem="2cO-Wm-Nwo" firstAttribute="top" secondItem="cdd-i3-uz2" secondAttribute="top" constant="73" id="uX1-fa-bsR"/>
+                            <constraint firstItem="Hgm-uh-EDq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xWP-dz-7Yo" secondAttribute="trailing" constant="8" symbolic="YES" id="ze3-Yl-cXf"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Historial" image="list.bullet.clipboard.fill" catalog="system" id="5fi-be-CS2"/>
+                    <tabBarItem key="tabBarItem" title="Estadisticas" image="list.bullet.clipboard.fill" catalog="system" id="5fi-be-CS2"/>
                     <connections>
                         <outlet property="stackGrafica" destination="4qF-cG-lHc" id="QKI-Lk-9At"/>
                         <outlet property="weekLabel" destination="2cO-Wm-Nwo" id="Ex8-9g-THv"/>
@@ -176,7 +190,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sg3-Oq-OjB">
-                                <rect key="frame" x="20" y="202" width="353" height="35"/>
+                                <rect key="frame" x="20" y="229" width="353" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Agregar Lista">
                                     <color key="baseForegroundColor" name="onPrimary"/>
@@ -187,7 +201,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0fQ-1p-EzI">
-                                <rect key="frame" x="20" y="264" width="353" height="461"/>
+                                <rect key="frame" x="20" y="287" width="353" height="438"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListCell" id="KSt-Vi-jpf">
@@ -203,17 +217,31 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mis Listas" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0og-q9-I3j">
+                                <rect key="frame" x="15" y="162" width="363" height="35"/>
+                                <color key="backgroundColor" name="primary"/>
+                                <color key="tintColor" name="onPrimary"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="f6l-vI-clc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" name="onPrimary"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="gBI-ev-wsU"/>
                         <color key="backgroundColor" name="background"/>
                         <constraints>
-                            <constraint firstItem="gBI-ev-wsU" firstAttribute="trailing" secondItem="0fQ-1p-EzI" secondAttribute="trailing" constant="20" id="669-Ib-YAM"/>
-                            <constraint firstItem="0fQ-1p-EzI" firstAttribute="leading" secondItem="gBI-ev-wsU" secondAttribute="leading" constant="20" id="Q9p-GO-QYH"/>
-                            <constraint firstItem="0fQ-1p-EzI" firstAttribute="top" secondItem="Sg3-Oq-OjB" secondAttribute="bottom" constant="27" id="SIA-aG-re0"/>
-                            <constraint firstItem="gBI-ev-wsU" firstAttribute="trailing" secondItem="Sg3-Oq-OjB" secondAttribute="trailing" constant="20" id="Xlc-yg-sdV"/>
-                            <constraint firstItem="Sg3-Oq-OjB" firstAttribute="top" secondItem="gBI-ev-wsU" secondAttribute="top" constant="40" id="bg7-Hl-580"/>
-                            <constraint firstItem="Sg3-Oq-OjB" firstAttribute="leading" secondItem="gBI-ev-wsU" secondAttribute="leading" constant="20" id="fzI-79-kSz"/>
-                            <constraint firstItem="gBI-ev-wsU" firstAttribute="bottom" secondItem="0fQ-1p-EzI" secondAttribute="bottom" constant="10" id="vn0-jL-vzC"/>
+                            <constraint firstItem="0og-q9-I3j" firstAttribute="centerX" secondItem="qLw-g5-L8V" secondAttribute="centerX" id="18T-Jc-2VX"/>
+                            <constraint firstItem="0og-q9-I3j" firstAttribute="top" secondItem="gBI-ev-wsU" secondAttribute="top" id="3fv-cu-VOp"/>
+                            <constraint firstItem="Sg3-Oq-OjB" firstAttribute="leading" secondItem="0fQ-1p-EzI" secondAttribute="leading" id="7hM-lS-Xa3"/>
+                            <constraint firstItem="gBI-ev-wsU" firstAttribute="bottom" secondItem="0fQ-1p-EzI" secondAttribute="bottom" constant="10" id="FZB-cu-WJ4"/>
+                            <constraint firstItem="0og-q9-I3j" firstAttribute="centerX" secondItem="Sg3-Oq-OjB" secondAttribute="centerX" id="IMe-Jg-u5X"/>
+                            <constraint firstItem="Sg3-Oq-OjB" firstAttribute="top" secondItem="0og-q9-I3j" secondAttribute="bottom" constant="32" id="Oyy-wE-wU8"/>
+                            <constraint firstItem="0fQ-1p-EzI" firstAttribute="top" secondItem="Sg3-Oq-OjB" secondAttribute="bottom" constant="23" id="RKq-KJ-PIE"/>
+                            <constraint firstItem="0og-q9-I3j" firstAttribute="leading" secondItem="gBI-ev-wsU" secondAttribute="leading" constant="15" id="aQV-tY-1MI"/>
+                            <constraint firstItem="Sg3-Oq-OjB" firstAttribute="trailing" secondItem="0fQ-1p-EzI" secondAttribute="trailing" id="b0e-GQ-fba"/>
+                            <constraint firstItem="Sg3-Oq-OjB" firstAttribute="leading" secondItem="gBI-ev-wsU" secondAttribute="leading" constant="20" id="sVM-W8-kv3"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qme-io-Kbe"/>
@@ -367,6 +395,8 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" name="menu"/>
                         <color key="tintColor" name="primary"/>
+                        <color key="barTintColor" systemColor="systemBackgroundColor"/>
+                        <color key="selectedImageTintColor" name="primary"/>
                     </tabBar>
                     <connections>
                         <segue destination="eeK-6a-XWN" kind="relationship" relationship="viewControllers" id="iPY-rH-PTU"/>
@@ -378,13 +408,13 @@
             </objects>
             <point key="canvasLocation" x="497" y="70"/>
         </scene>
-        <!--Listas-->
+        <!--Mis Listas-->
         <scene sceneID="PVG-35-rWK">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eeK-6a-XWN" sceneMemberID="viewController">
+                <navigationController title="Mis Listas" automaticallyAdjustsScrollViewInsets="NO" id="eeK-6a-XWN" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Listas" image="cart" catalog="system" id="Kyz-Dg-y5T"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HdQ-7W-Axf">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" restorationIdentifier="Mis Listas" id="HdQ-7W-Axf">
                         <rect key="frame" x="0.0" y="118" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -422,7 +452,7 @@
         <image name="fork.knife" catalog="system" width="94" height="128"/>
         <image name="list.bullet.clipboard.fill" catalog="system" width="98" height="128"/>
         <namedColor name="background">
-            <color red="0.98039215803146362" green="0.97254902124404907" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.96078431606292725" green="0.9843137264251709" blue="0.95686274766921997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="menu">
             <color red="0.7764706015586853" green="0.7764706015586853" blue="0.81568628549575806" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -431,7 +461,7 @@
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="primary">
-            <color red="0.29803922772407532" green="0.36078432202339172" blue="0.57254904508590698" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.13725490868091583" green="0.41568624973297119" blue="0.29803922772407532" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="secondary">
             <color red="0.34901960784313724" green="0.36862745098039218" blue="0.44705882352941179" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
