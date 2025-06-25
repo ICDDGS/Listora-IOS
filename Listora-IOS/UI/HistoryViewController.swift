@@ -57,6 +57,7 @@ class HistoryViewController: UIViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd MMM"
         weekLabel.text = "Semana: \(formatter.string(from: inicio)) - \(formatter.string(from: fin))"
+        weekLabel.textColor = .black
 
         let datos = cargarDatosDesdeHistorial()
         generarGraficaBarra(datos, en: stackGrafica)
@@ -85,17 +86,26 @@ class HistoryViewController: UIViewController {
             barra.widthAnchor.constraint(equalToConstant: 20).isActive = true
             barra.heightAnchor.constraint(equalToConstant: altura).isActive = true
 
+            let valorLabel = UILabel()
+            valorLabel.text = String(format: "$%.2f", valor)
+            valorLabel.font = .systemFont(ofSize: 10)
+            valorLabel.textColor = .black
+            valorLabel.textAlignment = .center
+
             let etiqueta = UILabel()
             etiqueta.text = dia
             etiqueta.font = .systemFont(ofSize: 10)
             etiqueta.textAlignment = .center
+            etiqueta.textColor = .black
 
+            barraContainer.addArrangedSubview(valorLabel)
             barraContainer.addArrangedSubview(barra)
             barraContainer.addArrangedSubview(etiqueta)
 
             contenedor.addArrangedSubview(barraContainer)
         }
     }
+
     func cargarDatosDesdeHistorial() -> [String: Double] {
         let calendar = Calendar.current
         let startOfWeek = calendar.startOfWeek(for: semanaActual)

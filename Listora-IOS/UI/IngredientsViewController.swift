@@ -23,7 +23,18 @@ class IngredientsViewController: UIViewController {
         super.viewDidLoad()
 
         title = shoppingList?.name ?? "Ingredientes"
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor(named: "background")
+                
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+        appearance.backgroundColor = UIColor(named: "background") ?? .white
+
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+
+
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -170,7 +181,8 @@ class IngredientsViewController: UIViewController {
 
             labelBudget.text = "Presupuesto restante: \(formatter.string(from: NSNumber(value: restante)) ?? "$0.00")"
 
-            labelBudget.textColor = restante < 0 ? .systemRed : .label
+            labelBudget.textColor = restante < 0 ? .systemRed : .black
+
         }
     }
     
@@ -285,8 +297,14 @@ extension IngredientsViewController: UITableViewDataSource, UITableViewDelegate 
         cell.textLabel?.text = "\(ingredient.name ?? "") - \(ingredient.quantity) \(ingredient.unit ?? "")"
         cell.detailTextLabel?.text = String(format: "$%.2f", ingredient.price)
         cell.accessoryType = ingredient.isPurchased ? .checkmark : .none
+
+        cell.detailTextLabel?.textColor = .black
+        cell.textLabel?.textColor = .black
+        cell.backgroundColor = UIColor(named: "background")
+
         return cell
     }
+
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let ingredient = ingredients[indexPath.row]

@@ -15,7 +15,8 @@ class ResumenViewController: UIViewController, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var labelTotal: UILabel!
-
+    @IBOutlet weak var labelCompras: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Resumen"
@@ -26,6 +27,10 @@ class ResumenViewController: UIViewController, UITableViewDataSource {
         formatter.locale = Locale(identifier: "es_MX")
 
         labelTotal.text = "Total gastado: \(formatter.string(from: NSNumber(value: total)) ?? "$0.00")"
+        labelTotal.textColor = .black
+        labelCompras.textColor = .black
+    
+        tableView.backgroundColor = UIColor(named: "background")
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -37,6 +42,9 @@ class ResumenViewController: UIViewController, UITableViewDataSource {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "resumenCell")
         cell.textLabel?.text = compra.name
         cell.detailTextLabel?.text = "\(compra.quantity) \(compra.unit ?? "") - $\(compra.price)"
+        cell.textLabel?.textColor = .black
+        cell.detailTextLabel?.textColor = .black
+        cell.backgroundColor = UIColor(named: "background")
         return cell
     }
 

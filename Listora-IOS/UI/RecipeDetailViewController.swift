@@ -37,7 +37,8 @@ class RecipeDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = recipe.name ?? "Detalle"
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "background")
+
         setupViews()
         setupConstraints()
         fetchIngredients()
@@ -289,6 +290,10 @@ extension RecipeDetailViewController: UITableViewDataSource, UITableViewDelegate
         let ing = ingredients[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "RecipeIngredientCell", for: indexPath)
         cell.textLabel?.text = "\(ing.name ?? "") - \(ing.quantity.clean) \(ing.unit ?? "")"
+        
+        cell.textLabel?.textColor = .black
+        cell.backgroundColor = UIColor(named: "background")
+        
         return cell
     }
 
