@@ -409,11 +409,28 @@
                         <segue destination="eeK-6a-XWN" kind="relationship" relationship="viewControllers" id="iPY-rH-PTU"/>
                         <segue destination="iB0-Vj-5jp" kind="relationship" relationship="viewControllers" id="N2T-b2-FK2"/>
                         <segue destination="Ueh-pk-lbv" kind="relationship" relationship="viewControllers" id="Usy-AS-UHc"/>
+                        <segue destination="gna-w1-GFI" kind="relationship" relationship="viewControllers" id="yO2-bG-E2W"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bdm-aZ-WP2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="497" y="70"/>
+        </scene>
+        <!--Ajustes-->
+        <scene sceneID="M5b-Wy-qRy">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MeX-I4-HW3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController id="gna-w1-GFI" customClass="SettingsViewController" customModule="Listora_IOS" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IT1-Qo-3D0">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="hOT-Je-c97"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Ajustes" image="gearshape.fill" catalog="system" id="Tl9-ys-wea"/>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="563" y="-716"/>
         </scene>
         <!--Mis Listas-->
         <scene sceneID="PVG-35-rWK">
@@ -457,6 +474,7 @@
     <resources>
         <image name="cart" catalog="system" width="128" height="102"/>
         <image name="fork.knife" catalog="system" width="94" height="128"/>
+        <image name="gearshape.fill" catalog="system" width="128" height="123"/>
         <image name="list.bullet.clipboard.fill" catalog="system" width="98" height="128"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
