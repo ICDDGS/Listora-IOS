@@ -14,7 +14,7 @@ El logo de Listora está conformado por una lista, que representa la organizaci�
 - **Tipo de dispositivo**: La app está pensada para iPhone, ya que es un dispositivo que el usuario lleva consigo constantemente, permitiendo acceder a la aplicación en cualquier momento.
 - **Versión mínima del sistema operativo**: iOS 15.0 o superior. Esta elección asegura compatibilidad con dispositivos modernos y permite el uso de funcionalidades como Core Data, notificaciones locales y Swift Charts.
 - **Orientaciones soportadas**: Solo se soporta **orientación vertical (portrait)**, con el objetivo de mantener una experiencia centrada, sencilla y cómoda para el usuario.
-- **Notificaciones**: La app permite configurar notificaciones locales programadas por el usuario, que le recuerdan listas de compras no finalizadas antes de su fecha límite. Esta funcionalidad mejora la planificación y el seguimiento de compras pendientes.
+- **Notificaciones**: La app permite configurar notificaciones locales programadas por el usuario, que le recuerdan listas de compras no finalizadas. Esta funcionalidad mejora la planificación y el seguimiento de compras pendientes.
 
 ## 🔐 Credenciales de Acceso
 
