@@ -12,7 +12,7 @@ class IngredientsViewController: UIViewController {
 
     var shoppingList: ShoppingListEntity?
     var ingredients: [IngredientEntity] = []
-    let unidades = ["kg", "g", "L", "ml", "pza", "taza"]
+    let unidades = ["kg", "g", "L", "ml", "pza"]
     var selectedUnidad = "kg"
     var unidadField: UITextField?
 
@@ -108,16 +108,13 @@ class IngredientsViewController: UIViewController {
     @objc func addIngredientTapped() {
         let alert = UIAlertController(title: "Nuevo ingrediente", message: nil, preferredStyle: .alert)
 
-        // Campo 0: Nombre
         alert.addTextField { $0.placeholder = "Nombre" }
 
-        // Campo 1: Cantidad
         alert.addTextField {
             $0.placeholder = "Cantidad"
             $0.keyboardType = .decimalPad
         }
 
-        // Campo 2: Unidad (con PickerView)
         alert.addTextField { field in
             field.placeholder = "Unidad"
             field.text = self.selectedUnidad
@@ -131,7 +128,6 @@ class IngredientsViewController: UIViewController {
             self.unidadField = field
         }
 
-        // Campo 3: Precio
         alert.addTextField {
             $0.placeholder = "Precio"
             $0.keyboardType = .decimalPad
@@ -312,8 +308,10 @@ extension IngredientsViewController: UITableViewDataSource, UITableViewDelegate 
         
         if ingredient.isPurchased {
             ingredient.purchasedDate = Date()
+            print(ingredient.purchasedDate)
         } else {
-            ingredient.purchasedDate = nil
+            ingredient.purchasedDate = Date()
+            print("sin cambio")
         }
 
         do {
@@ -330,7 +328,6 @@ extension IngredientsViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let ingredient = ingredients[indexPath.row]
 
-        // Acción de eliminar
         let deleteAction = UIContextualAction(style: .destructive, title: "Eliminar") { _, _, completion in
             let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
             context.delete(ingredient)
@@ -346,7 +343,6 @@ extension IngredientsViewController: UITableViewDataSource, UITableViewDelegate 
             }
         }
 
-        // Acción de editar
         let editAction = UIContextualAction(style: .normal, title: "Editar") { _, _, completion in
             self.showEditIngredientAlert(ingredient: ingredient)
             completion(true)

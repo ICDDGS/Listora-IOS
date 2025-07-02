@@ -36,18 +36,45 @@ class HistoryViewController: UIViewController {
     }
 
     @IBAction func exportarCSV(_ sender: UIButton) {
-        let csv = gastosPorDia.map { "\($0.key),\($0.value)" }.joined(separator: "\n")
-        let fileName = "gastos_semanales.csv"
-        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(fileName)
-        
+        let calendar = Calendar.current
+        let startOfWeek = calendar.startOfWeek(for: semanaActual)
+        let endOfWeek = calendar.date(byAdding: .day, value: 6, to: startOfWeek)!
+
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
+        let fetchRequest: NSFetchRequest<HistorialEntity> = HistorialEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "date >= %@ AND date <= %@", startOfWeek as NSDate, endOfWeek as NSDate)
+
         do {
+            let resultados = try context.fetch(fetchRequest)
+
+            var csv = "Ingrediente,Cantidad,Unidad,Costo,Fecha\n"
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+
+            for item in resultados {
+                let nombre = item.name ?? ""
+                let cantidad = item.quantity
+                let unidad = item.unit ?? ""
+                let precio = String(format: "%.2f", item.price)
+                let fecha = formatter.string(from: item.date ?? Date())
+
+                csv += "\(nombre),\(cantidad),\(unidad),\(precio),\(fecha)\n"
+            }
+
+            let fileName = "Compras_semana.csv"
+            let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(fileName)
+
             try csv.write(to: path, atomically: true, encoding: .utf8)
+
             let activityVC = UIActivityViewController(activityItems: [path], applicationActivities: nil)
             present(activityVC, animated: true)
+
         } catch {
-            print("Error al guardar CSV: \(error)")
+            print("Error al exportar CSV detallado: \(error)")
         }
     }
+
 
     func actualizarSemana() {
         let calendar = Calendar.current

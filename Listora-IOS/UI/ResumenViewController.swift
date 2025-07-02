@@ -64,12 +64,17 @@ class ResumenViewController: UIViewController, UITableViewDataSource {
         let path = documentsURL.appendingPathComponent(fileName)
 
 
-        var csvText = "Ingrediente,Cantidad,Unidad,Precio\n"
+        var csvText = "Ingrediente,Cantidad,Unidad,Precio,Fecha\n"
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
 
         for compra in compras {
-            let linea = "\(compra.name ?? ""),\(compra.quantity),\(compra.unit ?? ""),\(compra.price)\n"
+            let fecha = compra.purchasedDate != nil ? formatter.string(from: compra.purchasedDate!) : ""
+            let linea = "\(compra.name ?? ""),\(compra.quantity),\(compra.unit ?? ""),\(compra.price),\(fecha)\n"
             csvText.append(contentsOf: linea)
         }
+
 
         do {
             try csvText.write(to: path, atomically: true, encoding: .utf8)
@@ -90,7 +95,7 @@ class ResumenViewController: UIViewController, UITableViewDataSource {
             historial.quantity = compra.quantity
             historial.unit = compra.unit
             historial.price = compra.price
-            historial.date = compra.purchasedDate ?? Date()
+            historial.date = compra.purchasedDate
         }
 
         do {
