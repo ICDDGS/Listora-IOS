@@ -14,6 +14,7 @@ El logo de Listora está conformado por una lista, que representa la organizaci�
 - **Tipo de dispositivo**: La app está pensada para iPhone, ya que es un dispositivo que el usuario lleva consigo constantemente, permitiendo acceder a la aplicación en cualquier momento.
 - **Versión mínima del sistema operativo**: iOS 15.0 o superior. Esta elección asegura compatibilidad con dispositivos modernos y permite el uso de funcionalidades como Core Data, notificaciones locales y Swift Charts.
 - **Orientaciones soportadas**: Solo se soporta **orientación vertical (portrait)**, con el objetivo de mantener una experiencia centrada, sencilla y cómoda para el usuario.
+- **Notificaciones**: La app permite configurar notificaciones locales programadas por el usuario, que le recuerdan listas de compras no finalizadas antes de su fecha límite. Esta funcionalidad mejora la planificación y el seguimiento de compras pendientes.
 
 ## 🔐 Credenciales de Acceso
 
@@ -25,5 +26,7 @@ El proyecto está desarrollado en **Swift** utilizando **UIKit** y **Core Data**
 
 - **Core Data** – Para almacenamiento local de listas, ingredientes, historial y recetas.
 - **Swift Charts** – Para visualización de estadísticas y datos en forma de gráficas.
+- **UserNotifications** – Para programar y mostrar notificaciones locales.
+- **UNUserNotificationCenter** – Para gestión de permisos, programación y entrega de notificaciones locales.
 - **ExcelExport / Codable** – Para generar archivos exportables con la información registrada (usando formatos como CSV o Excel).
 - **UIKit** – Para la construcción de la interfaz de usuario con Storyboards y programación manual.
